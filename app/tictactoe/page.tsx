@@ -34,7 +34,7 @@ export default function TicTacToe() {
     [3, 4, 5],
     [6, 7, 8],
     [0, 4, 8],
-    [2, 4, 8],
+    [2, 4, 6],
     [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
@@ -68,16 +68,60 @@ export default function TicTacToe() {
         placed = true;
       }
     };
-    // placeholder logic for computer move
-    winningCombinations.forEach((combo) => {
-      let comboValues = [board[combo[0]], board[combo[1]], board[combo[2]]];
 
-      if (comboValues.filter((el) => el === "X").length === 0) {
-        for (let i = 0; i < 3; i++) {
-          placeO(combo[i]);
-        }
+    let moveOptions: {
+      priorityMove: number;
+      winningMoves: number[];
+      blockingMoves: number[];
+      randomMoves: number[];
+    } = {
+      priorityMove: -1,
+      winningMoves: [],
+      blockingMoves: [],
+      randomMoves: [],
+    };
+
+    winningCombinations.forEach((combo) => {
+      let xList: number[] = [];
+      let oList: number[] = [];
+      let emptyList: number[] = [];
+
+      combo.forEach((boardIdx) => {
+        if (board[boardIdx] === "X") xList.push(boardIdx);
+        if (board[boardIdx] === "O") oList.push(boardIdx);
+        if (!board[boardIdx]) emptyList.push(boardIdx);
+      });
+
+      if (oList.length === 2 && emptyList.length === 1) {
+        moveOptions.winningMoves.unshift(...emptyList);
+      } else if (oList.length === 1 && xList.length == 0) {
+        moveOptions.winningMoves.push(...emptyList);
+      }
+      if (xList.length == 2 && emptyList.length === 1) {
+        moveOptions.priorityMove = emptyList[0];
+      } else if (xList.length === 1 && emptyList.length > 0) {
+        moveOptions.blockingMoves.push(...emptyList);
+      } else if (emptyList.length > 0) {
+        moveOptions.randomMoves.push(...emptyList);
       }
     });
+
+    // Attempt to place "O" with priority: winning, blocking, or random empty spot
+    if (moveOptions.priorityMove !== -1) {
+      placeO(moveOptions.priorityMove);
+    } else {
+      if (moveOptions.winningMoves.length > 0) {
+        placeO(moveOptions.winningMoves[0]);
+      } else if (moveOptions.blockingMoves.length > 0) {
+        placeO(moveOptions.blockingMoves[0]);
+      } else if (moveOptions.randomMoves.length > 0) {
+        placeO(
+          moveOptions.randomMoves[
+            Math.floor(Math.random() * moveOptions.randomMoves.length)
+          ]
+        );
+      }
+    }
 
     if (placed) {
       setXTurn(!xTurn);
