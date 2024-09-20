@@ -59,15 +59,26 @@ export default function TicTacToe() {
 
   const computerMove = () => {
     let placed = false;
-    // placeholder logic for computer move
-    board.forEach((el, idx) => {
-      if (el === null && !placed) {
+
+    const placeO = (idx: number) => {
+      if (board[idx] === null && !placed) {
         let newBoard = [...board];
         newBoard[idx] = "O";
         setBoard(newBoard);
         placed = true;
       }
+    };
+    // placeholder logic for computer move
+    winningCombinations.forEach((combo) => {
+      let comboValues = [board[combo[0]], board[combo[1]], board[combo[2]]];
+
+      if (comboValues.filter((el) => el === "X").length === 0) {
+        for (let i = 0; i < 3; i++) {
+          placeO(combo[i]);
+        }
+      }
     });
+
     if (placed) {
       setXTurn(!xTurn);
     }
