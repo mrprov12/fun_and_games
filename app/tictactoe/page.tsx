@@ -17,7 +17,7 @@ export default function TicTacToe() {
     if (winners.length === 0 && !xTurn && useComputer) {
       computerMove();
     }
-  }, [board, xTurn, useComputer, winners]);
+  }, [winners]);
 
   // Placeholder board state (just for the UI)
   const setBoardData = (idx: number) => {
