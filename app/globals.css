@@ -25,3 +25,61 @@ body {
     text-wrap: balance;
   }
 }
+
+.horizontal {
+  position: relative;
+}
+
+.horizontal::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: grey;
+}
+
+.vertical {
+  position: relative;
+}
+
+.vertical::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 5px;
+  background-color: grey;
+}
+
+.diagonal-lr {
+  position: relative;
+}
+
+.diagonal-lr::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background-color: grey;
+  transform: rotate(45deg);
+  top: 50%;
+  left: 0;
+}
+
+.diagonal-rl {
+  position: relative;
+}
+
+.diagonal-rl::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background-color: grey;
+  transform: rotate(-45deg);
+  top: 50%;
+  left: 0;
+}
