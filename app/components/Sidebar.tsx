@@ -9,6 +9,16 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col space-y-4 p-4 bg-gray-700 w-1/4 h-screen text-white">
       <Link
+        href="/home"
+        className={`py-3 px-4 text-left rounded-lg ${
+          pathname === "/home"
+            ? "bg-blue-500 text-white"
+            : "bg-gray-600 hover:bg-gray-500"
+        }`}
+      >
+        Home
+      </Link>
+      <Link
         href="/sudoku"
         className={`py-3 px-4 text-left rounded-lg ${
           pathname === "/sudoku"
